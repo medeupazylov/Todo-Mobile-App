@@ -10,6 +10,14 @@ import UIKit
 
 class DetailsViewController: UIViewController {
 
+    var selectedColor: UIColor = .white
+    lazy var colorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = selectedColor
+        view.layer.cornerRadius = 10
+        return view
+    } ()
     
     var textViewHeightConstraint: NSLayoutConstraint!
     var multiselection: UICalendarSelectionSingleDate!
@@ -56,7 +64,17 @@ class DetailsViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
 
-
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(colorViewTapped(_:)))
+           colorView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func colorViewTapped(_ sender: UITapGestureRecognizer) {
+        let colorPicker = UIColorPickerViewController()
+        
+        colorPicker.selectedColor = selectedColor
+        taskText.tintColor = selectedColor 
+        colorPicker.delegate = self
+        present(colorPicker, animated: true, completion: nil)
     }
     
     @objc func orientationDidChange() {
@@ -87,6 +105,7 @@ class DetailsViewController: UIViewController {
         mainStack.addArrangedSubview(taskText)
         mainStack.addArrangedSubview(detailsStack)
         mainStack.addArrangedSubview(deleteButton)
+        containerView.addSubview(colorView)
         taskText.delegate = self
     }
     
@@ -97,6 +116,7 @@ class DetailsViewController: UIViewController {
         setupVerticalandHorizontalLayout()
         
         NSLayoutConstraint.activate([
+            
             
             mainScrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             mainScrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
@@ -116,6 +136,11 @@ class DetailsViewController: UIViewController {
             deleteButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16.0),
 
             deleteButton.heightAnchor.constraint(equalToConstant: 56.0),
+            
+            colorView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -32.0),
+            colorView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 32.0),
+            colorView.heightAnchor.constraint(equalToConstant: 20.0),
+            colorView.widthAnchor.constraint(equalToConstant: 20.0),
         ])
         
         textViewHeightConstraint = taskText.heightAnchor.constraint(equalToConstant: 120.0)
@@ -208,7 +233,7 @@ class DetailsViewController: UIViewController {
     
     private let taskText: UITextView = {
         let textView = UITextView()
-        textView.textContainerInset = UIEdgeInsets(top: 17, left: 16, bottom: 16, right: 16)
+        textView.textContainerInset = UIEdgeInsets(top: 17, left: 16, bottom: 16, right: 30)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = Constants.backSecondary
         textView.layer.cornerRadius = 16.0
@@ -287,3 +312,9 @@ extension DetailsViewController: UICalendarSelectionSingleDateDelegate {
     }
 }
 
+extension DetailsViewController: UIColorPickerViewControllerDelegate {
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        selectedColor = viewController.selectedColor
+        colorView.backgroundColor = selectedColor
+    }
+}
