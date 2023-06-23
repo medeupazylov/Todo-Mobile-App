@@ -9,15 +9,48 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    let fileName = "todoList.json"
     var window: UIWindow?
-
+    var fileCache: FileCache!
+    var navigationContoller: UINavigationController!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let winScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: winScene)
+        fileCache = FileCache()
+        fileCache.loadTodoItemsFromFile(fileName: fileName)
+        print(self.fileCache.todoItems)
+        navigationContoller = setupScreen()
+        window?.rootViewController = navigationContoller
+        window?.makeKeyAndVisible()
+        guard let application = (UIApplication.shared.delegate as? AppDelegate) else {return}
+        application.saveFilesClosure = {
+            self.fileCache.saveTodoItemsToFile(fileName: self.fileName)
+            print(self.fileCache.todoItems)
+        }
+        
     }
+    
+    private func setupScreen() -> UINavigationController{
+        let vc = DetailsViewController()
+        vc.saveActionClosure = { [weak self] newTodoItem in
+            guard let fileCache = self?.fileCache else {return}
+            fileCache.addNewTodoItem(todoItem: newTodoItem)
+            for item in fileCache.todoItems {
+                print(item.deadline)
+            }
+        }
+        
+        vc.deleteActionClosure = { [weak self] id in
+            guard let fileCache = self?.fileCache else {return}
+            fileCache.removeTodoItem(id: id)
+            print(fileCache.todoItems.count)
+        }
+        
+        let navigationController = UINavigationController(rootViewController: vc)
+        return navigationController
+    }
+    
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
@@ -27,6 +60,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
+        guard let vc = navigationContoller.viewControllers[0] as? DetailsViewController else {return}
+        let todoItem = !fileCache.todoItems.isEmpty ? fileCache.todoItems[0] : nil
+        vc.todoItem = todoItem
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
     }

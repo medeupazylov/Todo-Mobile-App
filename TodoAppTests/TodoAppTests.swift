@@ -30,7 +30,7 @@ final class TodoAppTests: XCTestCase {
         try test3()
         try test4()
         try test5()
-        try test6() 
+        try test6()
     }
 
 //MARK: - Проверка инициализатора без необъязательных значений, как id, deadline, changeDate
