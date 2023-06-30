@@ -7,14 +7,27 @@
 
 import UIKit
 import CoreData
+import CocoaLumberjack
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var saveFilesClosure: (()->Void)?
+    
+    public let fileLogger: DDFileLogger = DDFileLogger()
+    private func setupLogger() {
+        DDLog.add(DDTTYLogger.sharedInstance!)
+            
+        // File logger
+        fileLogger.rollingFrequency = TimeInterval(60*60*24)
+        fileLogger.logFileManager.maximumNumberOfLogFiles = 7
+        DDLog.add(fileLogger, with: .info)
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        setupLogger()
+            
         return true
     }
     
