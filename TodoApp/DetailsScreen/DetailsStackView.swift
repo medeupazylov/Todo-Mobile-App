@@ -1,10 +1,8 @@
 import UIKit
 
-
-
-
 class DetailsStackView: UIStackView {
     
+//MARK: - Properties
     var priority: Priority = .high {
         didSet {
             changePriority(priority: priority)
@@ -15,6 +13,8 @@ class DetailsStackView: UIStackView {
     var disableGestureClosure: (()->Void)?
     var resignFirstResponderClosure: (()->Void)?
     
+    
+//MARK: - Initialization
     init() {
         super.init(frame: .zero)
         setupStack()
@@ -22,39 +22,20 @@ class DetailsStackView: UIStackView {
         setupViews()
         setupLayout()
         setupTapAndButtons()
-        
-        guard let singleSelection = calendarView.selectionBehavior as? UICalendarSelectionSingleDate else {
-            return
-        }
-        deadlineSubtitle.text = "\(singleSelection.selectedDate!)"
-        
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func deadLineAction() {
-        resignFirstResponderClosure?()
-        disableGestureClosure?()
-        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseIn , animations: {
-            self.calendarView.isHidden = !(self.calendarView.isHidden)
-            self.line2.isHidden = self.calendarView.isHidden
-        })
-    }
     
-    func hideCalendar() {
-        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseIn , animations: {
-            self.calendarView.isHidden = true
-            self.line2.isHidden = true
-        })
-    }
-    
+//MARK: - Setup methods
     private func setupStack() {
         self.axis = .vertical
         self.distribution = .fillProportionally
         self.alignment = .center
-        
+        guard let singleSelection = calendarView.selectionBehavior as? UICalendarSelectionSingleDate else {return}
+        deadlineSubtitle.text = "\(singleSelection.selectedDate!)"
     }
     
     private func setupViews() {
@@ -135,6 +116,62 @@ class DetailsStackView: UIStackView {
     }
     
     
+//MARK: - Private methods
+    private func changePriority(priority: Priority) {
+        lowPriorityButton.backgroundColor = .clear
+        mediumPriorityButton.backgroundColor = .clear
+        highPriorityButton.backgroundColor = .clear
+        switch priority {
+        case .low:
+            lowPriorityButton.backgroundColor = Constants.backElevated
+        case .medium:
+            mediumPriorityButton.backgroundColor = Constants.backElevated
+        case .high:
+            highPriorityButton.backgroundColor = Constants.backElevated
+        }
+    }
+    
+    
+//MARK: - Internal Methods
+    
+    func getDeadline() -> Date? {
+        if toggleSwitch.isOn {
+            return deadline
+        }
+        return nil
+    }
+    
+    func setDateToDeadline(date: DateComponents) {
+        let months = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]
+        deadlineSubtitle.text = "\(date.day!) \(months[date.month!-1]) \(date.year!)"
+        guard let singleSelection = self.calendarView.selectionBehavior as? UICalendarSelectionSingleDate,
+              var selectedDate = singleSelection.selectedDate
+        else { return }
+        if ((selectedDate.date?.timeIntervalSince1970)!) > Date.now.timeIntervalSince1970+24*60*60 {
+            selectedDate.day! += 1
+        }
+        self.deadline = selectedDate.date
+    }
+    
+    func hideCalendar() {
+        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseIn , animations: {
+            self.calendarView.isHidden = true
+            self.line2.isHidden = true
+        })
+    }
+    
+    
+//MARK: - Button Actions
+
+    @objc func deadLineAction() {
+        resignFirstResponderClosure?()
+        disableGestureClosure?()
+        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseIn , animations: {
+            self.calendarView.isHidden = !(self.calendarView.isHidden)
+            self.line2.isHidden = self.calendarView.isHidden
+        })
+    }
+    
     @objc private func actionButton(_ sender: UIButton) {
         resignFirstResponderClosure?()
         switch sender {
@@ -160,39 +197,12 @@ class DetailsStackView: UIStackView {
                 self.calendarView.isHidden = true
                 self.line2.isHidden = self.calendarView.isHidden
                 self.deadline = nil
-            } 
+            }
         })
     }
     
-    private func changePriority(priority: Priority) {
-        lowPriorityButton.backgroundColor = .clear
-        mediumPriorityButton.backgroundColor = .clear
-        highPriorityButton.backgroundColor = .clear
-        switch priority {
-        case .low:
-            lowPriorityButton.backgroundColor = Constants.backElevated
-        case .medium:
-            mediumPriorityButton.backgroundColor = Constants.backElevated
-        case .high:
-            highPriorityButton.backgroundColor = Constants.backElevated
-        }
-    }
-    
-    private let line: UIView = {
-        let line = UIView()
-        line.translatesAutoresizingMaskIntoConstraints = false
-        line.backgroundColor = Constants.supportSeparator
-        return line
-    } ()
-    
-    private let line2: UIView = {
-        let line = UIView()
-        line.translatesAutoresizingMaskIntoConstraints = false
-        line.backgroundColor = Constants.supportSeparator
-        line.isHidden = true
-        return line
-    } ()
-    
+
+//MARK: - PriorityView Elements
     private let priorityView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -207,6 +217,69 @@ class DetailsStackView: UIStackView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     } ()
+    
+    private let priorityStack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.backgroundColor = Constants.supportOverlay
+        stack.axis = .horizontal
+        stack.distribution = .fillProportionally
+        stack.alignment = .center
+        stack.layer.cornerRadius = 8.91
+        return stack
+    } ()
+    
+    private let lowPriorityButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "lowPriorityIcon"), for: .normal)
+        button.layer.cornerRadius = 6.93
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.12
+        button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        button.layer.shadowRadius = 3
+        return button
+    } ()
+    
+    private let mediumPriorityButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setAttributedTitle(NSAttributedString(string: "нет", attributes: [
+            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15, weight: .medium),
+            NSAttributedString.Key.foregroundColor : Constants.labelPrimary!
+        ]), for: .normal)
+        button.layer.cornerRadius = 6.93
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.12
+        button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        button.layer.shadowRadius = 3
+        return button
+    } ()
+    
+    private let highPriorityButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Constants.backElevated
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "highPriorityIcon"), for: .normal)
+        button.layer.cornerRadius = 6.93
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.12
+        button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        button.layer.shadowRadius = 3
+        return button
+    } ()
+    
+    private let line: UIView = {
+        let line = UIView()
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.backgroundColor = Constants.supportSeparator
+        return line
+    } ()
+    
+    
+//MARK: - DeadlineView Elements
     
     private let deadlineView: UIView = {
         let view = UIView()
@@ -241,65 +314,19 @@ class DetailsStackView: UIStackView {
         return label
     } ()
     
-    private let priorityStack: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.backgroundColor = Constants.supportOverlay
-        stack.axis = .horizontal
-        stack.distribution = .fillProportionally
-        stack.alignment = .center
-        stack.layer.cornerRadius = 8.91
-        return stack
-    } ()
-    
-    private let lowPriorityButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .clear
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "lowPriorityIcon"), for: .normal)
-        button.layer.cornerRadius = 6.93
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.12
-        button.layer.shadowOffset = CGSize(width: 0, height: 3)
-        button.layer.shadowRadius = 3
-        return button
-    } ()
-    
-    private let mediumPriorityButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .clear
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setAttributedTitle(NSAttributedString(string: "нет", attributes: [
-            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15, weight: .medium),
-            NSAttributedString.Key.foregroundColor : Constants.labelPrimary
-        ]), for: .normal)
-        button.layer.cornerRadius = 6.93
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.12
-        button.layer.shadowOffset = CGSize(width: 0, height: 3)
-        button.layer.shadowRadius = 3
-        return button
-    } ()
-    
-    private let highPriorityButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = Constants.backElevated
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "highPriorityIcon"), for: .normal)
-        button.layer.cornerRadius = 6.93
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.12
-        button.layer.shadowOffset = CGSize(width: 0, height: 3)
-        button.layer.shadowRadius = 3
-        return button
-    } ()
-    
     let toggleSwitch: UISwitch = {
         let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
         return toggle
     } ()
     
+    private let line2: UIView = {
+        let line = UIView()
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.backgroundColor = Constants.supportSeparator
+        line.isHidden = true
+        return line
+    } ()
     
     let calendarView: UICalendarView = {
         let calendar = UICalendarView()
@@ -310,16 +337,4 @@ class DetailsStackView: UIStackView {
         return calendar
     } ()
     
-    
-    func setDateToDeadline(date: DateComponents) {
-        let months = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]
-        deadlineSubtitle.text = "\(date.day!) \(months[date.month!-1]) \(date.year!)"
-        guard let singleSelection = self.calendarView.selectionBehavior as? UICalendarSelectionSingleDate,
-              var selectedDate = singleSelection.selectedDate
-        else { return }
-        if ((selectedDate.date?.timeIntervalSince1970)!) > Date.now.timeIntervalSince1970+24*60*60 {
-            selectedDate.day! += 1
-        }
-        self.deadline = selectedDate.date
-    }
 }

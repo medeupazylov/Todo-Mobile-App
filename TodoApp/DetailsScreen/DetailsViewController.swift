@@ -1,45 +1,22 @@
-//
-//  ViewController.swift
-//  TodoApp
-//
-//  Created by Medeu Pazylov on 17.06.2023.
-//
-
 import UIKit
 
 
 class DetailsViewController: UIViewController {
-
-    var selectedColor: UIColor = .white
-    lazy var colorView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = selectedColor
-        view.layer.cornerRadius = 10
-        return view
-    } ()
     
-    var textViewHeightConstraint: NSLayoutConstraint!
-    var multiselection: UICalendarSelectionSingleDate!
-    var todoItem: TodoItem? {
-        didSet {
-            guard let todoItem = todoItem else { return }
-            taskText.text = todoItem.text
-            detailsStack.priority = todoItem.priority
-            if let deadline = todoItem.deadline {
-                multiselection.selectedDate = detailsStack.calendarView.calendar.dateComponents(in: .current, from: deadline)
-                detailsStack.setDateToDeadline(date: multiselection.selectedDate!)
-            }
-            taskText.textColor = Constants.labelPrimary
-            detailsStack.toggleSwitch.isOn = true
-            detailsStack.toggleAction(detailsStack.toggleSwitch)
-        }
-    }
+//MARK: - Properties
+    var todoItem: TodoItem? { didSet {  } }
+    
+    var singleSelection: UICalendarSelectionSingleDate!
     var saveActionClosure: ((TodoItem) -> Void)?
     var deleteActionClosure: ((String) -> Void)?
+    var cancelGesture: UIGestureRecognizer!
     
-    var gesture: UIGestureRecognizer!
-    
+    var textViewHeightConstraint: NSLayoutConstraint!
+    var verticalConstraints: [NSLayoutConstraint] = []
+    var horizontalConstraints: [NSLayoutConstraint] = []
+    var selectedColor: UIColor = .white
+
+//MARK: - Lifecycle and Setup
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,55 +25,35 @@ class DetailsViewController: UIViewController {
         setupLayout()
         setupNavigationBar()
         setupTapAndButtons()
-        
-        gesture = UITapGestureRecognizer(target: self, action: #selector(cancelAction))
-        gesture.isEnabled = true
-        view.addGestureRecognizer(gesture)
-        detailsStack.disableGestureClosure = { [weak self] in
-            guard let some = self else {return}
-            some.gesture.isEnabled = !(some.gesture.isEnabled)
-        }
-        
-        detailsStack.resignFirstResponderClosure = { [weak self] in
-            guard let some = self else {return}
-            some.taskText.resignFirstResponder()
-        }
+        setupDetailsInfo()
         
         NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(colorViewTapped(_:)))
-           colorView.addGestureRecognizer(tapGesture)
     }
     
-    @objc func colorViewTapped(_ sender: UITapGestureRecognizer) {
-        let colorPicker = UIColorPickerViewController()
-        
-        colorPicker.selectedColor = selectedColor
-        taskText.tintColor = selectedColor 
-        colorPicker.delegate = self
-        present(colorPicker, animated: true, completion: nil)
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
-    @objc func orientationDidChange() {
-        let device = UIDevice.current
-        switch device.orientation {
-        case .portrait:
-            // Handle portrait orientation
-            print("Portrait")
-            for item in horizontalConstraints { item.isActive = false }
-            for item in verticalConstraints { item.isActive = true }
-        case .landscapeLeft, .landscapeRight:
-            // Handle landscape orientation
-            print("Landscape")
-            for item in verticalConstraints { item.isActive = false }
-            for item in horizontalConstraints { item.isActive = true }
-        default:
-            break
+    private func setupDetailsInfo() {
+        guard let todoItem = todoItem else { return }
+        taskText.text = todoItem.text
+        taskText.textColor = Constants.labelPrimary
+        detailsStack.priority = todoItem.priority
+        if let deadline = todoItem.deadline {
+            singleSelection.selectedDate = detailsStack.calendarView.calendar.dateComponents(in: .current, from: deadline)
+            detailsStack.setDateToDeadline(date: singleSelection.selectedDate!)
+            detailsStack.toggleSwitch.isOn = true
         }
-        view.layoutSubviews()
-        
+        detailsStack.toggleAction(detailsStack.toggleSwitch)
     }
     
+    private func setupNavigationBar() {
+        navigationItem.title = "Дело"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Отменить", style: .plain, target: self, action: #selector(cancelAction))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(saveAction))
+        navigationItem.rightBarButtonItem?.isEnabled = todoItem != nil
+    }
     
     private func setupView() {
         view.addSubview(containerView)
@@ -109,22 +66,16 @@ class DetailsViewController: UIViewController {
         taskText.delegate = self
     }
     
-    var verticalConstraints: [NSLayoutConstraint] = []
-    var horizontalConstraints: [NSLayoutConstraint] = []
-    
     private func setupLayout() {
         setupVerticalandHorizontalLayout()
-        
         NSLayoutConstraint.activate([
-            
-            
+
             mainScrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             mainScrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             mainScrollView.topAnchor.constraint(equalTo: containerView.topAnchor),
             mainScrollView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             mainStack.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: 16.0),
             mainStack.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -16),
-            
             
             taskText.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
             taskText.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16.0),
@@ -141,8 +92,8 @@ class DetailsViewController: UIViewController {
             colorView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 32.0),
             colorView.heightAnchor.constraint(equalToConstant: 20.0),
             colorView.widthAnchor.constraint(equalToConstant: 20.0),
+            
         ])
-        
         textViewHeightConstraint = taskText.heightAnchor.constraint(equalToConstant: 120.0)
         textViewHeightConstraint.isActive = true
     }
@@ -151,70 +102,123 @@ class DetailsViewController: UIViewController {
         verticalConstraints = [
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            containerView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ]
-        for constraint in verticalConstraints {
-            constraint.isActive = true
-        }
-        
+    
         horizontalConstraints = [
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
             containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ]
-    }
-    
-    
-    
-    private func setupNavigationBar() {
-        navigationItem.title = "Дело"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Отменить", style: .plain, target: self, action: #selector(cancelAction))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", style: .plain, target: self, action: #selector(saveAction))
-        navigationItem.rightBarButtonItem?.isEnabled = todoItem != nil
+        if UIDevice.current.orientation == .landscapeLeft ||
+           UIDevice.current.orientation == .landscapeRight ||
+            UIDevice.current.orientation == .unknown
+        {
+            for constraint in horizontalConstraints { constraint.isActive = true }
+            print("here in hotizotal")
+        } else {
+            for constraint in verticalConstraints { constraint.isActive = true }
+            print("here in vertical")
+        }
+        
     }
     
     private func setupTapAndButtons() {
-        multiselection = UICalendarSelectionSingleDate(delegate: self)
-        detailsStack.calendarView.selectionBehavior = multiselection
-        multiselection.selectedDate = detailsStack.calendarView.calendar.dateComponents(in: .current, from: Date(timeIntervalSinceNow: 24*60*60))
-        detailsStack.setDateToDeadline(date: multiselection.selectedDate!)
-        
+        singleSelection = UICalendarSelectionSingleDate(delegate: self)
+        detailsStack.calendarView.selectionBehavior = singleSelection
+        singleSelection.selectedDate = detailsStack.calendarView.calendar.dateComponents(in: .current, from: Date(timeIntervalSinceNow: 24*60*60))
+        detailsStack.setDateToDeadline(date: singleSelection.selectedDate!)
         deleteButton.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+        
+        cancelGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextView))
+        cancelGesture.isEnabled = true
+        view.addGestureRecognizer(cancelGesture)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(colorViewTapped(_:)))
+           colorView.addGestureRecognizer(tapGesture)
+        
+        detailsStack.disableGestureClosure = { [weak self] in
+            guard let some = self else {return}
+            some.cancelGesture.isEnabled = !(some.cancelGesture.isEnabled)
+        }
+        detailsStack.resignFirstResponderClosure = { [weak self] in
+            guard let some = self else {return}
+            some.taskText.resignFirstResponder()
+        }
+    }
+    
+    
+//MARK: - Button Actions
+    @objc private func colorViewTapped(_ sender: UITapGestureRecognizer) {
+        let colorPicker = UIColorPickerViewController()
+        colorPicker.selectedColor = selectedColor
+        taskText.tintColor = selectedColor 
+        colorPicker.delegate = self
+        present(colorPicker, animated: true, completion: nil)
+    }
+    
+    @objc private func orientationDidChange() {
+        let device = UIDevice.current
+        switch device.orientation {
+        case .portrait:
+            // Handle portrait orientation
+            print("Portrait")
+            for item in horizontalConstraints { item.isActive = false }
+            for item in verticalConstraints { item.isActive = true }
+        case .landscapeLeft, .landscapeRight:
+            // Handle landscape orientation
+            print("Landscape")
+            for item in verticalConstraints { item.isActive = false }
+            for item in horizontalConstraints { item.isActive = true }
+        default:
+            print("nothing")
+        }
+        view.layoutSubviews()
+        
     }
     
     @objc private func saveAction() {
         print("save")
+        let deadline = detailsStack.getDeadline()
+
         if todoItem == nil {
-            let deadline = detailsStack.deadline
-            let newTodoItem = TodoItem(text: taskText.text, priority: detailsStack.priority, deadline: deadline ,isDone: false)
+            let newTodoItem = TodoItem(text: taskText.text, priority: detailsStack.priority, deadline: deadline,isDone: false)
             saveActionClosure?(newTodoItem)
         } else {
             guard let todoItem = todoItem else {return}
-            let newTodoItem = TodoItem(id: todoItem.id, text: taskText.text, priority: detailsStack.priority,deadline: todoItem.deadline, isDone: todoItem.isDone, createDate: todoItem.createDate, changeDate: todoItem.changeDate)
+            let newTodoItem = TodoItem(id: todoItem.id, text: taskText.text, priority: detailsStack.priority,deadline: deadline, isDone: todoItem.isDone, createDate: todoItem.createDate, changeDate: todoItem.changeDate)
             saveActionClosure?(newTodoItem)
         }
+        self.dismiss(animated: true)
+
     }
     
     @objc private func deleteAction() {
         print("delete")
-        guard let id = todoItem?.id else {
-            return
-        }
+        guard let id = todoItem?.id else { return }
         deleteActionClosure?(id)
+        self.dismiss(animated: true)
+
+    }
+    
+    @objc private func dismissTextView() {
+        taskText.resignFirstResponder()
     }
     
     @objc private func cancelAction() {
         taskText.resignFirstResponder()
+        self.dismiss(animated: true)
     }
     
+    
+//MARK: - UI Elements
     private let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     } ()
-    
     
     private let mainScrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -259,25 +263,40 @@ class DetailsViewController: UIViewController {
         button.layer.cornerRadius = 16.0
         button.setAttributedTitle(NSAttributedString(string: "Удалить", attributes: [
             NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17, weight: .light),
-            NSAttributedString.Key.foregroundColor : Constants.colorRed
+            NSAttributedString.Key.foregroundColor : Constants.colorRed!
         ]), for: .normal)
         return button
     } ()
-
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
-    }
+    
+    lazy var colorView: UIView = {
+        let view = UIView()
+//        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = selectedColor
+        view.layer.cornerRadius = 10
+        return view
+    } ()
 }
 
 
+//MARK: - UITextViewDelegate
+
 extension DetailsViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        gesture.isEnabled = true
+        cancelGesture.isEnabled = true
         detailsStack.hideCalendar()
         if textView.text == Constants.placeholderText {
             textView.text = ""
             textView.textColor = Constants.labelPrimary
         }
+        if UIDevice.current.orientation == .landscapeLeft ||
+           UIDevice.current.orientation == .landscapeRight ||
+            UIDevice.current.orientation == .unknown
+        {
+            detailsStack.isHidden = true
+            deleteButton.isHidden = true
+        }
+        
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -285,8 +304,9 @@ extension DetailsViewController: UITextViewDelegate {
             textView.text = Constants.placeholderText
             textView.textColor = Constants.labelTertiary
         }
+        detailsStack.isHidden = false
+        deleteButton.isHidden = false
     }
-    
     
     func textViewDidChange(_ textView: UITextView) {
         updateTextViewHeight()
@@ -305,6 +325,7 @@ extension DetailsViewController: UITextViewDelegate {
     }
 }
 
+//MARK: - UICalendarSelectionSingleDateDelegate
 extension DetailsViewController: UICalendarSelectionSingleDateDelegate {
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         guard let dateComponents = dateComponents else {return}
@@ -312,6 +333,7 @@ extension DetailsViewController: UICalendarSelectionSingleDateDelegate {
     }
 }
 
+//MARK: - UIColorPickerViewControllerDelegate
 extension DetailsViewController: UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
         selectedColor = viewController.selectedColor

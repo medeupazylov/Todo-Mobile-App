@@ -12,43 +12,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let fileName = "todoList.json"
     var window: UIWindow?
     var fileCache: FileCache!
-    var navigationContoller: UINavigationController!
+    var detailsNavigationContoller: UINavigationController!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let winScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: winScene)
+        setupFileCache()
+
+        window?.rootViewController = setupMainScreen()
+//                window?.rootViewController = setupScreen()
+        window?.makeKeyAndVisible()
+    }
+    
+    private func setupFileCache() {
         fileCache = FileCache()
         fileCache.loadTodoItemsFromFile(fileName: fileName)
-        print(self.fileCache.todoItems)
-        navigationContoller = setupScreen()
-        window?.rootViewController = navigationContoller
-        window?.makeKeyAndVisible()
+//        print(self.fileCache.todoItems)
         guard let application = (UIApplication.shared.delegate as? AppDelegate) else {return}
         application.saveFilesClosure = {
             self.fileCache.saveTodoItemsToFile(fileName: self.fileName)
-            print(self.fileCache.todoItems)
+//            print(self.fileCache.todoItems)
         }
-        
     }
     
-    private func setupScreen() -> UINavigationController{
-        let vc = DetailsViewController()
-        vc.saveActionClosure = { [weak self] newTodoItem in
-            guard let fileCache = self?.fileCache else {return}
-            fileCache.addNewTodoItem(todoItem: newTodoItem)
-            for item in fileCache.todoItems {
-                print(item.deadline)
-            }
-        }
-        
-        vc.deleteActionClosure = { [weak self] id in
-            guard let fileCache = self?.fileCache else {return}
-            fileCache.removeTodoItem(id: id)
-            print(fileCache.todoItems.count)
-        }
-        
-        let navigationController = UINavigationController(rootViewController: vc)
-        return navigationController
+    private func setupMainScreen() -> UINavigationController {
+        let mainPresenter = MainPresenter(fileCache: fileCache)
+        let mainView = MainView(newMainPresenter: mainPresenter)
+        mainPresenter.mainView = mainView
+        let mainNavigationController = UINavigationController(rootViewController: mainView)
+        return mainNavigationController
     }
     
 
@@ -60,9 +52,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        guard let vc = navigationContoller.viewControllers[0] as? DetailsViewController else {return}
-        let todoItem = !fileCache.todoItems.isEmpty ? fileCache.todoItems[0] : nil
-        vc.todoItem = todoItem
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
     }
