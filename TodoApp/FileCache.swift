@@ -13,13 +13,14 @@ class FileCache {
         todoItems.append(todoItem)
     }
     
-    func removeTodoItem(id: String) {
+    func removeTodoItem(id: String) -> TodoItem? {
         for i in 0..<todoItems.count {
             if (id == todoItems[i].id) {
-                todoItems.remove(at: i);
-                break
+                return todoItems.remove(at: i);
             }
         }
+        
+        return nil
     }
     
     func saveTodoItemsToFile(fileName: String) {
