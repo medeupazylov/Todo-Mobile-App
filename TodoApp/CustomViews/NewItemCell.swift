@@ -1,4 +1,6 @@
 import UIKit
+//import FileCache
+
 
 class NewItemCell: UITableViewCell {
     

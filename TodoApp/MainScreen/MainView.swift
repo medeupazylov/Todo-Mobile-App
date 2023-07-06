@@ -6,6 +6,8 @@
 //
 
 import UIKit
+//import FileCache
+
 
 enum TodoListState {
     case all
@@ -266,7 +268,7 @@ extension MainView: UITableViewDataSource {
             self?.tableView.reloadData()
             self?.updateCountLabel()
         }
-        
+    
         vc.deleteActionClosure = { [weak self] id in
             print("delete in main")
             print(self?.mainPresenter.removeTodoItem(id: id)!)
@@ -281,23 +283,19 @@ extension MainView: UITableViewDataSource {
 
 extension MainView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView is UITableView {
-            if scrollView.contentOffset.y > 60 {
-                self.navigationController?.navigationBar.prefersLargeTitles = false
-                if(headerView.isHidden == false) {
-                    UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn , animations: {
-                        self.headerView.isHidden = true
-                    })
-                }
-                
-            } else {
-                self.navigationController?.navigationBar.prefersLargeTitles = true
-                if(headerView.isHidden == true) {
-                    UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn , animations: {
-                        self.headerView.isHidden = false
-                    })
-                }
-            }
+        guard scrollView is UITableView else {return}
+        if scrollView.contentOffset.y > 60 {
+            self.navigationController?.navigationBar.prefersLargeTitles = false
+            guard headerView.isHidden == false else {return}
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn , animations: {
+                self.headerView.isHidden = true
+            })
+        } else {
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            guard headerView.isHidden == true else {return}
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn , animations: {
+                self.headerView.isHidden = false
+            })
         }
     }
 }
