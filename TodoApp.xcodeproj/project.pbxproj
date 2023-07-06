@@ -28,6 +28,7 @@
 		DEE361E42A4B1F1B00C514BE /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE361E32A4B1F1B00C514BE /* MainPresenter.swift */; };
 		DEE361E62A4B1F2B00C514BE /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE361E52A4B1F2A00C514BE /* MainModel.swift */; };
 		DEE361E82A4B285500C514BE /* TodoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE361E72A4B285500C514BE /* TodoItemCell.swift */; };
+		DEE9439C2A5451CD001D7F7D /* URLSession Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE9439B2A5451CD001D7F7D /* URLSession Extension.swift */; };
 		DEF8F8112A4D8899004630FA /* NewItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF8F8102A4D8899004630FA /* NewItemCell.swift */; };
 		E37D7DE9D0BFBE3F0C19911E /* libPods-TodoApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D5CE916A1E2C7957FAB241F /* libPods-TodoApp.a */; };
 		F89C04B44BDEDC72C44980AE /* libPods-TodoAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31BA8FA4BC5F1C4067770C31 /* libPods-TodoAppTests.a */; };
@@ -80,6 +81,7 @@
 		DEE361E32A4B1F1B00C514BE /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		DEE361E52A4B1F2A00C514BE /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		DEE361E72A4B285500C514BE /* TodoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemCell.swift; sourceTree = "<group>"; };
+		DEE9439B2A5451CD001D7F7D /* URLSession Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession Extension.swift"; sourceTree = "<group>"; };
 		DEF8F8102A4D8899004630FA /* NewItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemCell.swift; sourceTree = "<group>"; };
 		EA8CFCBDC3ECEDDF6304E017 /* libPods-TodoApp-TodoAppUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TodoApp-TodoAppUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -174,6 +176,7 @@
 				DE8453242A3CEE55008D2250 /* LaunchScreen.storyboard */,
 				DE8453272A3CEE55008D2250 /* Info.plist */,
 				DE84531F2A3CEE53008D2250 /* TodoApp.xcdatamodeld */,
+				DEE9439B2A5451CD001D7F7D /* URLSession Extension.swift */,
 			);
 			path = TodoApp;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE84534B2A3CEF88008D2250 /* TodoItem.swift in Sources */,
+				DEE9439C2A5451CD001D7F7D /* URLSession Extension.swift in Sources */,
 				DE84531B2A3CEE53008D2250 /* DetailsViewController.swift in Sources */,
 				DE8453172A3CEE53008D2250 /* AppDelegate.swift in Sources */,
 				DE8453192A3CEE53008D2250 /* SceneDelegate.swift in Sources */,

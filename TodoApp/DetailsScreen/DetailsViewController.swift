@@ -1,5 +1,5 @@
 import UIKit
-
+//import FileCache
 
 class DetailsViewController: UIViewController {
     
@@ -28,6 +28,27 @@ class DetailsViewController: UIViewController {
         setupDetailsInfo()
         
         NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        let keyboardHeight = keyboardFrame.size.height
+//        mainScrollView.contentInset.bottom = keyboardHeight
+        mainScrollView.verticalScrollIndicatorInsets.bottom = keyboardHeight
+
+        let rect = CGRect(x: 0, y: 0, width: 400, height: 800)
+        mainScrollView.scrollRectToVisible(rect, animated: true)
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        mainScrollView.contentInset.bottom = 0
+        mainScrollView.verticalScrollIndicatorInsets.bottom = 0
     }
     
     

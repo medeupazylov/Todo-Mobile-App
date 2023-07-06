@@ -1,5 +1,7 @@
 import UIKit
 import CocoaLumberjackSwift
+//import FileCache
+
 
 protocol MainViewProtocol: AnyObject {
     
@@ -30,7 +32,6 @@ class MainPresenter: MainPresenterProtocol {
     init(fileCache: FileCache) {
         self.fileCache = fileCache
     }
-    
     
     func getCountTodoList() -> Int {
         DDLogInfo("Did get todolist count")

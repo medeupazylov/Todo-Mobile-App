@@ -5,8 +5,6 @@ class FileCache {
     private(set) var todoItems: [TodoItem] = []
     
     func addNewTodoItem(todoItem: TodoItem) {
-        
-
         for i in 0..<todoItems.count {
             if (todoItem.id == todoItems[i].id) {
                 DDLogInfo("Did change todoitem to cache")
@@ -16,11 +14,9 @@ class FileCache {
         }
         DDLogInfo("Did add new todoitem to cache")
         todoItems.append(todoItem)
-        
     }
     
     func removeTodoItem(id: String) -> TodoItem? {
-        
         for i in 0..<todoItems.count {
             if (id == todoItems[i].id) {
                 DDLogInfo("Did remove todoitem from cache")

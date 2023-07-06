@@ -8,6 +8,8 @@
 import UIKit
 import CoreData
 import CocoaLumberjack
+//import FileCache
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
