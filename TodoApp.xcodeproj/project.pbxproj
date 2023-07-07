@@ -11,6 +11,7 @@
 		DE1B7CE12A4F57C900F4CE75 /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = DE1B7CE02A4F57C900F4CE75 /* CocoaLumberjack */; };
 		DE1B7CE32A4F57C900F4CE75 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DE1B7CE22A4F57C900F4CE75 /* CocoaLumberjackSwift */; };
 		DE1B7CE52A4F57C900F4CE75 /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = DE1B7CE42A4F57C900F4CE75 /* CocoaLumberjackSwiftLogBackend */; };
+		DE54EC202A58BF78008F98C4 /* NetworkTodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE54EC1F2A58BF78008F98C4 /* NetworkTodoItem.swift */; };
 		DE8453172A3CEE53008D2250 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8453162A3CEE53008D2250 /* AppDelegate.swift */; };
 		DE8453192A3CEE53008D2250 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8453182A3CEE53008D2250 /* SceneDelegate.swift */; };
 		DE84531B2A3CEE53008D2250 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE84531A2A3CEE53008D2250 /* DetailsViewController.swift */; };
@@ -22,6 +23,7 @@
 		DE84533D2A3CEE56008D2250 /* TodoAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE84533C2A3CEE56008D2250 /* TodoAppUITestsLaunchTests.swift */; };
 		DE84534B2A3CEF88008D2250 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE84534A2A3CEF88008D2250 /* TodoItem.swift */; };
 		DE84534D2A3CEF9E008D2250 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE84534C2A3CEF9E008D2250 /* FileCache.swift */; };
+		DECF0C9E2A589DC800A572C3 /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECF0C9D2A589DC800A572C3 /* NetworkingService.swift */; };
 		DEE361D92A41C08500C514BE /* DetailsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE361D82A41C08500C514BE /* DetailsStackView.swift */; };
 		DEE361DD2A4633B600C514BE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE361DC2A4633B600C514BE /* Constants.swift */; };
 		DEE361E22A49A7DE00C514BE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE361E12A49A7DE00C514BE /* MainView.swift */; };
@@ -60,6 +62,7 @@
 		93C06A8EDEC2FBE92C3935A5 /* Pods-TodoAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppTests.release.xcconfig"; path = "Target Support Files/Pods-TodoAppTests/Pods-TodoAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		BEA0AAB1DC9BFE3E1801955B /* Pods-TodoApp-TodoAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoApp-TodoAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-TodoApp-TodoAppUITests/Pods-TodoApp-TodoAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CACCACB9C831B9FBE0D8797F /* Pods-TodoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoApp.release.xcconfig"; path = "Target Support Files/Pods-TodoApp/Pods-TodoApp.release.xcconfig"; sourceTree = "<group>"; };
+		DE54EC1F2A58BF78008F98C4 /* NetworkTodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTodoItem.swift; sourceTree = "<group>"; };
 		DE8453132A3CEE53008D2250 /* TodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE8453162A3CEE53008D2250 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DE8453182A3CEE53008D2250 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,6 +78,7 @@
 		DE84533C2A3CEE56008D2250 /* TodoAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		DE84534A2A3CEF88008D2250 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		DE84534C2A3CEF9E008D2250 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
+		DECF0C9D2A589DC800A572C3 /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
 		DEE361D82A41C08500C514BE /* DetailsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsStackView.swift; sourceTree = "<group>"; };
 		DEE361DC2A4633B600C514BE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DEE361E12A49A7DE00C514BE /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -177,6 +181,8 @@
 				DE8453272A3CEE55008D2250 /* Info.plist */,
 				DE84531F2A3CEE53008D2250 /* TodoApp.xcdatamodeld */,
 				DEE9439B2A5451CD001D7F7D /* URLSession Extension.swift */,
+				DECF0C9D2A589DC800A572C3 /* NetworkingService.swift */,
+				DE54EC1F2A58BF78008F98C4 /* NetworkTodoItem.swift */,
 			);
 			path = TodoApp;
 			sourceTree = "<group>";
@@ -455,6 +461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DECF0C9E2A589DC800A572C3 /* NetworkingService.swift in Sources */,
 				DE84534B2A3CEF88008D2250 /* TodoItem.swift in Sources */,
 				DEE9439C2A5451CD001D7F7D /* URLSession Extension.swift in Sources */,
 				DE84531B2A3CEE53008D2250 /* DetailsViewController.swift in Sources */,
@@ -469,6 +476,7 @@
 				DEE361E82A4B285500C514BE /* TodoItemCell.swift in Sources */,
 				DEE361DD2A4633B600C514BE /* Constants.swift in Sources */,
 				DEF8F8112A4D8899004630FA /* NewItemCell.swift in Sources */,
+				DE54EC202A58BF78008F98C4 /* NetworkTodoItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
