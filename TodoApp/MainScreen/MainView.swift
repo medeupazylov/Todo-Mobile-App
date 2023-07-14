@@ -255,6 +255,7 @@ extension MainView: UITableViewDataSource {
             self?.tableView.reloadData()
             self?.updateCountLabel()
         }
+        
         return cell
     }
     
