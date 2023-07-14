@@ -134,8 +134,7 @@ class DetailsViewController: UIViewController {
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ]
         if UIDevice.current.orientation == .landscapeLeft ||
-           UIDevice.current.orientation == .landscapeRight ||
-            UIDevice.current.orientation == .unknown
+           UIDevice.current.orientation == .landscapeRight 
         {
             for constraint in horizontalConstraints { constraint.isActive = true }
             print("here in hotizotal")
@@ -311,8 +310,7 @@ extension DetailsViewController: UITextViewDelegate {
             textView.textColor = Constants.labelPrimary
         }
         if UIDevice.current.orientation == .landscapeLeft ||
-           UIDevice.current.orientation == .landscapeRight ||
-            UIDevice.current.orientation == .unknown
+           UIDevice.current.orientation == .landscapeRight 
         {
             detailsStack.isHidden = true
             deleteButton.isHidden = true

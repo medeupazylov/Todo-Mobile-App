@@ -7,8 +7,10 @@ extension URLSession {
         let cancel = { task?.cancel() }
         
         return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
                 task = dataTask(with: urlRequest) { data, response, error in
+                    print("processing the task")
                     if let error = error {
                         continuation.resume(throwing: error)
                     } else if let data = data, let response = response {

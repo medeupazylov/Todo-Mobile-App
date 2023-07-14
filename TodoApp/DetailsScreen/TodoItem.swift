@@ -1,4 +1,5 @@
 import Foundation
+import SQLite
 
 enum Priority: String {
     case low = "low"
@@ -134,6 +135,41 @@ extension TodoItem {
         }
         
         return TodoItem(id: id, text: text, priority: priority, deadline: deadline, isDone: isDone, createDate: createDate, changeDate: changeDate)
+    }
+    
+}
+
+extension TodoItem {
+    var sqlReplaceStatement: String {
+        return ""
+    }
+    
+    static func parse(sqlRow row: Row) -> TodoItem? {
+        do {
+            let id = try row.get(FileCache.id)
+            let text = try row.get(FileCache.text)
+            let priorityRaw = try row.get(FileCache.priority)
+            let deadline = try row.get(FileCache.deadline)
+            let isDone = try row.get(FileCache.isDone)
+            let createDate = try row.get(FileCache.createDate)
+            let changeDate = try row.get(FileCache.changeDate)
+            
+            var priority = Priority.medium
+            switch priorityRaw {
+            case "low":
+                priority = .low
+            case "high":
+                priority = .high
+            default:
+                priority = .medium
+            }
+            
+            let todoItem = TodoItem(id: id, text: text, priority: priority, deadline: deadline, isDone: isDone, createDate: createDate, changeDate: changeDate)
+            return todoItem
+        } catch {
+            print(error)
+            return nil
+        }
     }
     
 }

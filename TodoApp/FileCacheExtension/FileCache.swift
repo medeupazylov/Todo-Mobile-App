@@ -1,29 +1,58 @@
 import Foundation
 import CocoaLumberjackSwift
 
-class FileCache {
+enum DataBaseType {
+    case coreData
+    case sqlite
+}
+
+final class FileCache: NSObject {
     private(set) var todoItems: [TodoItem] = []
+    
+    //MARK: - Change the DataBaseType here
+    let dataBaseType = DataBaseType.coreData
+    
+    func clearList() {
+        todoItems = []
+    }
+    
+    func addHelper(todoItem: TodoItem) {
+        for i in 0..<todoItems.count {
+            if (todoItem.id == todoItems[i].id) {
+                todoItems[i] = todoItem
+                print(todoItem.isDone)
+                return
+            }
+        }
+        todoItems.append(todoItem)
+    }
     
     func addNewTodoItem(todoItem: TodoItem) {
         for i in 0..<todoItems.count {
             if (todoItem.id == todoItems[i].id) {
-                DDLogInfo("Did change todoitem to cache")
                 todoItems[i] = todoItem
+                print(todoItem.isDone)
+                if(dataBaseType == .sqlite) { updateTodoItemSQL(todoItem: todoItem) }
+                if(dataBaseType == .coreData) { updateTodoItemCoreData(todoItem: todoItem) }
                 return
             }
         }
-        DDLogInfo("Did add new todoitem to cache")
+        if(dataBaseType == .sqlite) { insertTodoItemSQL(todoItem: todoItem) }
+        if(dataBaseType == .coreData) { insertTodoItemCoreData(todoItem: todoItem) }
+
         todoItems.append(todoItem)
     }
+    
     
     func removeTodoItem(id: String) -> TodoItem? {
         for i in 0..<todoItems.count {
             if (id == todoItems[i].id) {
-                DDLogInfo("Did remove todoitem from cache")
+                if(dataBaseType == .sqlite) { deleteTodoItemSQL(id: id) }
+                if(dataBaseType == .coreData) { deleteTodoItemCoreData(id: id) }
+                
                 return todoItems.remove(at: i);
             }
         }
-        DDLogInfo("Did not remove todoitem from cache")
         return nil
     }
     
@@ -111,5 +140,3 @@ class FileCache {
         return documentsDirectory.appendingPathComponent(fileName)
     }
 }
-
-

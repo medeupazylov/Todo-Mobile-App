@@ -8,14 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		B07E01D04FD0844E0ED7EA47 /* libPods-TodoApp-TodoAppUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA8CFCBDC3ECEDDF6304E017 /* libPods-TodoApp-TodoAppUITests.a */; };
+		DE016C382A5D813500A29B6D /* FileCacheSQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE016C372A5D813500A29B6D /* FileCacheSQL.swift */; };
+		DE016C3B2A5D81DC00A29B6D /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = DE016C3A2A5D81DC00A29B6D /* SQLite */; };
 		DE1B7CE12A4F57C900F4CE75 /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = DE1B7CE02A4F57C900F4CE75 /* CocoaLumberjack */; };
 		DE1B7CE32A4F57C900F4CE75 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DE1B7CE22A4F57C900F4CE75 /* CocoaLumberjackSwift */; };
 		DE1B7CE52A4F57C900F4CE75 /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = DE1B7CE42A4F57C900F4CE75 /* CocoaLumberjackSwiftLogBackend */; };
+		DE4117E22A5FF50B008C9E69 /* FileCacheCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4117E12A5FF50B008C9E69 /* FileCacheCoreData.swift */; };
 		DE54EC202A58BF78008F98C4 /* NetworkTodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE54EC1F2A58BF78008F98C4 /* NetworkTodoItem.swift */; };
 		DE8453172A3CEE53008D2250 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8453162A3CEE53008D2250 /* AppDelegate.swift */; };
 		DE8453192A3CEE53008D2250 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8453182A3CEE53008D2250 /* SceneDelegate.swift */; };
 		DE84531B2A3CEE53008D2250 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE84531A2A3CEE53008D2250 /* DetailsViewController.swift */; };
-		DE8453212A3CEE53008D2250 /* TodoApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DE84531F2A3CEE53008D2250 /* TodoApp.xcdatamodeld */; };
+		DE8453212A3CEE53008D2250 /* TodoItemModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DE84531F2A3CEE53008D2250 /* TodoItemModel.xcdatamodeld */; };
 		DE8453232A3CEE55008D2250 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE8453222A3CEE55008D2250 /* Assets.xcassets */; };
 		DE8453262A3CEE55008D2250 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE8453242A3CEE55008D2250 /* LaunchScreen.storyboard */; };
 		DE8453312A3CEE56008D2250 /* TodoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8453302A3CEE56008D2250 /* TodoAppTests.swift */; };
@@ -62,6 +65,8 @@
 		93C06A8EDEC2FBE92C3935A5 /* Pods-TodoAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppTests.release.xcconfig"; path = "Target Support Files/Pods-TodoAppTests/Pods-TodoAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		BEA0AAB1DC9BFE3E1801955B /* Pods-TodoApp-TodoAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoApp-TodoAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-TodoApp-TodoAppUITests/Pods-TodoApp-TodoAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CACCACB9C831B9FBE0D8797F /* Pods-TodoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoApp.release.xcconfig"; path = "Target Support Files/Pods-TodoApp/Pods-TodoApp.release.xcconfig"; sourceTree = "<group>"; };
+		DE016C372A5D813500A29B6D /* FileCacheSQL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheSQL.swift; sourceTree = "<group>"; };
+		DE4117E12A5FF50B008C9E69 /* FileCacheCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCacheCoreData.swift; sourceTree = "<group>"; };
 		DE54EC1F2A58BF78008F98C4 /* NetworkTodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTodoItem.swift; sourceTree = "<group>"; };
 		DE8453132A3CEE53008D2250 /* TodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE8453162A3CEE53008D2250 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE016C3B2A5D81DC00A29B6D /* SQLite in Frameworks */,
 				DE1B7CE32A4F57C900F4CE75 /* CocoaLumberjackSwift in Frameworks */,
 				DE1B7CE52A4F57C900F4CE75 /* CocoaLumberjackSwiftLogBackend in Frameworks */,
 				DE1B7CE12A4F57C900F4CE75 /* CocoaLumberjack in Frameworks */,
@@ -172,14 +178,14 @@
 				DEF8F8122A4F06FA004630FA /* MainScreen */,
 				DEF8F8132A4F0707004630FA /* DetailsScreen */,
 				DEF8F8142A4F072B004630FA /* CustomViews */,
-				DE84534C2A3CEF9E008D2250 /* FileCache.swift */,
+				DE96989B2A61CE1700CDBA87 /* FileCacheExtension */,
 				DEE361DC2A4633B600C514BE /* Constants.swift */,
 				DE8453162A3CEE53008D2250 /* AppDelegate.swift */,
 				DE8453182A3CEE53008D2250 /* SceneDelegate.swift */,
 				DE8453222A3CEE55008D2250 /* Assets.xcassets */,
 				DE8453242A3CEE55008D2250 /* LaunchScreen.storyboard */,
 				DE8453272A3CEE55008D2250 /* Info.plist */,
-				DE84531F2A3CEE53008D2250 /* TodoApp.xcdatamodeld */,
+				DE84531F2A3CEE53008D2250 /* TodoItemModel.xcdatamodeld */,
 				DEE9439B2A5451CD001D7F7D /* URLSession Extension.swift */,
 				DECF0C9D2A589DC800A572C3 /* NetworkingService.swift */,
 				DE54EC1F2A58BF78008F98C4 /* NetworkTodoItem.swift */,
@@ -202,6 +208,16 @@
 				DE84533C2A3CEE56008D2250 /* TodoAppUITestsLaunchTests.swift */,
 			);
 			path = TodoAppUITests;
+			sourceTree = "<group>";
+		};
+		DE96989B2A61CE1700CDBA87 /* FileCacheExtension */ = {
+			isa = PBXGroup;
+			children = (
+				DE84534C2A3CEF9E008D2250 /* FileCache.swift */,
+				DE016C372A5D813500A29B6D /* FileCacheSQL.swift */,
+				DE4117E12A5FF50B008C9E69 /* FileCacheCoreData.swift */,
+			);
+			path = FileCacheExtension;
 			sourceTree = "<group>";
 		};
 		DEF8F8122A4F06FA004630FA /* MainScreen */ = {
@@ -255,6 +271,7 @@
 				DE1B7CE02A4F57C900F4CE75 /* CocoaLumberjack */,
 				DE1B7CE22A4F57C900F4CE75 /* CocoaLumberjackSwift */,
 				DE1B7CE42A4F57C900F4CE75 /* CocoaLumberjackSwiftLogBackend */,
+				DE016C3A2A5D81DC00A29B6D /* SQLite */,
 			);
 			productName = TodoApp;
 			productReference = DE8453132A3CEE53008D2250 /* TodoApp.app */;
@@ -332,6 +349,7 @@
 			mainGroup = DE84530A2A3CEE53008D2250;
 			packageReferences = (
 				DE1B7CDF2A4F57C900F4CE75 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */,
+				DE016C392A5D81DC00A29B6D /* XCRemoteSwiftPackageReference "SQLite.swift" */,
 			);
 			productRefGroup = DE8453142A3CEE53008D2250 /* Products */;
 			projectDirPath = "";
@@ -464,15 +482,17 @@
 				DECF0C9E2A589DC800A572C3 /* NetworkingService.swift in Sources */,
 				DE84534B2A3CEF88008D2250 /* TodoItem.swift in Sources */,
 				DEE9439C2A5451CD001D7F7D /* URLSession Extension.swift in Sources */,
+				DE4117E22A5FF50B008C9E69 /* FileCacheCoreData.swift in Sources */,
 				DE84531B2A3CEE53008D2250 /* DetailsViewController.swift in Sources */,
 				DE8453172A3CEE53008D2250 /* AppDelegate.swift in Sources */,
 				DE8453192A3CEE53008D2250 /* SceneDelegate.swift in Sources */,
 				DE84534D2A3CEF9E008D2250 /* FileCache.swift in Sources */,
 				DEE361E42A4B1F1B00C514BE /* MainPresenter.swift in Sources */,
 				DEE361E62A4B1F2B00C514BE /* MainModel.swift in Sources */,
+				DE016C382A5D813500A29B6D /* FileCacheSQL.swift in Sources */,
 				DEE361D92A41C08500C514BE /* DetailsStackView.swift in Sources */,
 				DEE361E22A49A7DE00C514BE /* MainView.swift in Sources */,
-				DE8453212A3CEE53008D2250 /* TodoApp.xcdatamodeld in Sources */,
+				DE8453212A3CEE53008D2250 /* TodoItemModel.xcdatamodeld in Sources */,
 				DEE361E82A4B285500C514BE /* TodoItemCell.swift in Sources */,
 				DEE361DD2A4633B600C514BE /* Constants.swift in Sources */,
 				DEF8F8112A4D8899004630FA /* NewItemCell.swift in Sources */,
@@ -644,6 +664,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 29X52XH2TF;
@@ -652,6 +673,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -661,6 +683,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.medeupazylov.TodoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -673,6 +696,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 29X52XH2TF;
@@ -681,6 +705,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -690,6 +715,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.medeupazylov.TodoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -818,6 +844,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DE016C392A5D81DC00A29B6D /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.1;
+			};
+		};
 		DE1B7CDF2A4F57C900F4CE75 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/CocoaLumberjack/CocoaLumberjack";
@@ -829,6 +863,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DE016C3A2A5D81DC00A29B6D /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE016C392A5D81DC00A29B6D /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
 		DE1B7CE02A4F57C900F4CE75 /* CocoaLumberjack */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DE1B7CDF2A4F57C900F4CE75 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
@@ -847,13 +886,13 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		DE84531F2A3CEE53008D2250 /* TodoApp.xcdatamodeld */ = {
+		DE84531F2A3CEE53008D2250 /* TodoItemModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				DE8453202A3CEE53008D2250 /* TodoApp.xcdatamodel */,
 			);
 			currentVersion = DE8453202A3CEE53008D2250 /* TodoApp.xcdatamodel */;
-			path = TodoApp.xcdatamodeld;
+			path = TodoItemModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

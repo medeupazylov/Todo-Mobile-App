@@ -28,12 +28,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func setupFileCache() {
         fileCache = FileCache()
-        fileCache.loadTodoItemsFromFile(fileName: fileName)
-//        print(self.fileCache.todoItems)
+        if(fileCache.dataBaseType == .sqlite) { fileCache.loadFromSQL() }
+        if(fileCache.dataBaseType == .coreData) { fileCache.loadTodoItemsCoreData() }
+        
         guard let application = (UIApplication.shared.delegate as? AppDelegate) else {return}
         application.saveFilesClosure = {
-            self.fileCache.saveTodoItemsToFile(fileName: self.fileName)
-//            print(self.fileCache.todoItems)
+            self.fileCache.saveToSQL()
         }
     }
     
