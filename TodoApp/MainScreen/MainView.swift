@@ -20,6 +20,7 @@ class MainView: UIViewController {
     var todoListState: TodoListState = .all {
         didSet {
             self.tableView.reloadData()
+        
             hideLabel.text = todoListState == .all ? "Скрыть" : "Показать"
         }
     }
