@@ -1,4 +1,4 @@
-# TodoApp
+# TodoApp | UIKit, SwiftUI, CoreData, SQLite, FastAPI
  Explore Todo App, my Yandex School-developed app. It adopts MVP, utilizing CoreData and Swift's latest tech for seamless networking. Featuring screens in both UIKit and SwiftUI, it boosts productivity. Try it now!
 
 <img width="350" alt="Снимок экрана 2023-11-24 в 13 50 51" src="https://github.com/medeupazylov/TodoApp/assets/113336831/1c19433b-53e8-4e59-983a-1186ddefd768">
